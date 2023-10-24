@@ -1,4 +1,5 @@
 # thapar_class_checker
+<<<<<<< HEAD
 
 A new Flutter project.
 
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+An app made in Flutter to view and get notified about your next classes even when offline
+>>>>>>> parent of f5c89bc (Delete README.md)
