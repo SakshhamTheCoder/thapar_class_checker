@@ -27,75 +27,48 @@ class Utils {
     13: "from 6PM to 6:50PM",
   };
 
-  static bool _isCurrentDateInRange(
-      DateTime currentDate, DateTime startDate, DateTime endDate) {
-    return (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) ||
-        currentDate.isAtSameMomentAs(startDate);
+  static bool _isCurrentDateInRange(DateTime currentDate, DateTime startDate, DateTime endDate) {
+    return (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) || currentDate.isAtSameMomentAs(startDate);
   }
 
   static int currentClassTime(DateTime currentDate) {
-    if (_isCurrentDateInRange(currentDate, DateFormat("kk:mm").parse("08:00"),
-        DateFormat("kk:mm").parse("08:50"))) {
+    if (_isCurrentDateInRange(currentDate, DateFormat("kk:mm").parse("08:00"), DateFormat("kk:mm").parse("08:50"))) {
       return 1;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("08:50"),
-        DateFormat("kk:mm").parse("09:40"))) {
+        currentDate, DateFormat("kk:mm").parse("08:50"), DateFormat("kk:mm").parse("09:40"))) {
       return 2;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("09:40"),
-        DateFormat("kk:mm").parse("10:30"))) {
+        currentDate, DateFormat("kk:mm").parse("09:40"), DateFormat("kk:mm").parse("10:30"))) {
       return 3;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("10:30"),
-        DateFormat("kk:mm").parse("11:20"))) {
+        currentDate, DateFormat("kk:mm").parse("10:30"), DateFormat("kk:mm").parse("11:20"))) {
       return 4;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("11:20"),
-        DateFormat("kk:mm").parse("12:10"))) {
+        currentDate, DateFormat("kk:mm").parse("11:20"), DateFormat("kk:mm").parse("12:10"))) {
       return 5;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("12:10"),
-        DateFormat("kk:mm").parse("13:00"))) {
+        currentDate, DateFormat("kk:mm").parse("12:10"), DateFormat("kk:mm").parse("13:00"))) {
       return 6;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("13:00"),
-        DateFormat("kk:mm").parse("13:50"))) {
+        currentDate, DateFormat("kk:mm").parse("13:00"), DateFormat("kk:mm").parse("13:50"))) {
       return 7;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("13:50"),
-        DateFormat("kk:mm").parse("14:40"))) {
+        currentDate, DateFormat("kk:mm").parse("13:50"), DateFormat("kk:mm").parse("14:40"))) {
       return 8;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("14:40"),
-        DateFormat("kk:mm").parse("15:30"))) {
+        currentDate, DateFormat("kk:mm").parse("14:40"), DateFormat("kk:mm").parse("15:30"))) {
       return 9;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("15:30"),
-        DateFormat("kk:mm").parse("16:20"))) {
+        currentDate, DateFormat("kk:mm").parse("15:30"), DateFormat("kk:mm").parse("16:20"))) {
       return 10;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("16:20"),
-        DateFormat("kk:mm").parse("17:10"))) {
+        currentDate, DateFormat("kk:mm").parse("16:20"), DateFormat("kk:mm").parse("17:10"))) {
       return 11;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("17:10"),
-        DateFormat("kk:mm").parse("18:00"))) {
+        currentDate, DateFormat("kk:mm").parse("17:10"), DateFormat("kk:mm").parse("18:00"))) {
       return 12;
     } else if (_isCurrentDateInRange(
-        currentDate,
-        DateFormat("kk:mm").parse("18:00"),
-        DateFormat("kk:mm").parse("18:50"))) {
+        currentDate, DateFormat("kk:mm").parse("18:00"), DateFormat("kk:mm").parse("18:50"))) {
       return 13;
     } else {
       return 0;
