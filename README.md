@@ -1,16 +1,14 @@
-# thapar_class_checker
+# Thapar Class Checker
 
-A new Flutter project.
+An app made in Flutter to easily check current and upcoming classes and also notify about it according to your subgroups, all without internet.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+<p align="middle">
+  <img src="screenshots/selection.png" width="100" />
+  <img src="screenshots/home.png" width="100" /> 
+</p>
 
-A few resources to get you started if this is your first Flutter project:
+## Inspiration
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+After I joined this college, I was really having a hard time
