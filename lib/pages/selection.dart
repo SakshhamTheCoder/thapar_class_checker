@@ -15,8 +15,8 @@ class SelectionPage extends StatefulWidget {
 }
 
 class _SelectionPageState extends State<SelectionPage> {
-  late String selectedBatch = "1ST YEAR A";
-  late String selectedGroup;
+  late String selectedBatch = "";
+  late String selectedGroup = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +40,22 @@ class _SelectionPageState extends State<SelectionPage> {
                 }
                 if (snapshot.hasData) {
                   var batch = json.decode(snapshot.data).keys.toList();
-                  var group =
-                      json.decode(snapshot.data)[selectedBatch].keys.toList();
+                  var group = [];
+                  if (selectedBatch != "") {
+                    group = json.decode(snapshot.data)[selectedBatch].keys.toList();
+                  }
                   return Column(
                     children: [
                       DropdownMenu(
                           hintText: "Select Batch",
-                          menuHeight: 500,
+                          menuHeight: 300,
                           width: 300,
                           onSelected: (String? value) {
                             setState(() {
                               selectedBatch = value!;
                             });
                           },
-                          dropdownMenuEntries:
-                              batch.map<DropdownMenuEntry<String>>((value) {
+                          dropdownMenuEntries: batch.map<DropdownMenuEntry<String>>((value) {
                             return DropdownMenuEntry<String>(
                               value: value,
                               label: value,
@@ -64,15 +65,14 @@ class _SelectionPageState extends State<SelectionPage> {
                       SizedBox(height: 5),
                       DropdownMenu(
                           hintText: "Select Group",
-                          menuHeight: 500,
+                          menuHeight: 300,
                           width: 300,
                           onSelected: (String? value) {
                             setState(() {
                               selectedGroup = value!;
                             });
                           },
-                          dropdownMenuEntries:
-                              group.map<DropdownMenuEntry<String>>((value) {
+                          dropdownMenuEntries: group.map<DropdownMenuEntry<String>>((value) {
                             return DropdownMenuEntry<String>(
                               value: value,
                               label: value,
@@ -82,23 +82,33 @@ class _SelectionPageState extends State<SelectionPage> {
                     ],
                   );
                 }
-                return const Text("no data");
+                return const Text("No data");
               },
             ),
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () {
+                if (selectedBatch == "" || selectedGroup == "") {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      showCloseIcon: true,
+                      content: Text("Please select batch and group"),
+                    ),
+                  );
+                  return;
+                }
                 SharedPrefs.instance.setString("batch", selectedBatch);
                 SharedPrefs.instance.setString("group", selectedGroup);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HomePage(
                       batchName: selectedBatch,
                       groupName: selectedGroup,
-                    ),
-                  ),
-                );
+                    );
+                  },
+                ));
               },
               child: const Text("Get Schedule"),
             ),

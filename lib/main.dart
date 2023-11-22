@@ -29,12 +29,11 @@ class _MyAppState extends State<MyApp> {
           fontFamily: GoogleFonts.ptSans().fontFamily,
           colorScheme: ColorScheme.fromSeed(
               // seedColor: const Color.fromARGB(255, 98, 0, 255),
-              seedColor: const Color.fromARGB(255, 236, 145, 38),
+              // seedColor: const Color.fromARGB(255, 236, 145, 38),
+              seedColor: const Color.fromARGB(255, 236, 35, 43),
               brightness: Brightness.dark),
           useMaterial3: true,
         ),
-        home: (batch != null && group != null)
-            ? HomePage(batchName: batch!, groupName: group!)
-            : const SelectionPage());
+        home: (batch != null && group != null) ? HomePage(batchName: batch, groupName: group) : const SelectionPage());
   }
 }

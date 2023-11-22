@@ -52,15 +52,24 @@ class _HomePageState extends State<HomePage> {
                 }
                 if (snapshot.hasData) {
                   var day = DateFormat('EEEE').format(date);
-                  var dayIndex = Utils.days[day];
+                  var dayIndex = Utils.days[day]!;
                   var timeIndex = Utils.currentClassTime(
-                      DateTime.parse("1970-01-01 00:00:00.000")
-                          .copyWith(hour: date.hour, minute: date.minute));
+                      DateTime.parse("1970-01-01 00:00:00.000").copyWith(hour: date.hour, minute: date.minute));
+                  var nextTimeIndex = timeIndex > 0 && timeIndex < 14 ? timeIndex + 1 : 0;
+                  var currentData = json.decode(snapshot.data)[widget.batchName][widget.groupName][timeIndex][dayIndex];
 
-                  var currentData = json.decode(snapshot.data)[widget.batchName]
-                      [widget.groupName][timeIndex][dayIndex];
-                  var nextData = json.decode(snapshot.data)[widget.batchName]
-                      [widget.groupName][timeIndex + 1][dayIndex];
+                  for (nextTimeIndex; nextTimeIndex < 15; nextTimeIndex++) {
+                    if (json.decode(snapshot.data)[widget.batchName][widget.groupName][nextTimeIndex][dayIndex]
+                            ['course'] !=
+                        "") {
+                      break;
+                    }
+                  }
+                  if (nextTimeIndex > 13) {
+                    nextTimeIndex = 0;
+                  }
+                  var nextData =
+                      json.decode(snapshot.data)[widget.batchName][widget.groupName][nextTimeIndex][dayIndex];
                   String currentClass = (dayIndex != 0)
                       ? timeIndex != 0
                           ? currentData['course'].toString().isNotEmpty
@@ -69,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                           : "No class right now"
                       : "No class today";
                   String nextClass = (dayIndex != 0)
-                      ? timeIndex + 1 != 0
+                      ? nextTimeIndex != 0
                           ? nextData['course'].toString().isNotEmpty
                               ? nextData['course'].toString()
                               : "No class right now"
@@ -79,18 +88,16 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(DateFormat('EEEE, d MMMM y').format(date),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineSmall),
+                          textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
                       Text(DateFormat.jm().format(date),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineLarge),
+                          textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineLarge),
                       const SizedBox(height: 50),
                       Text(
                         "${widget.batchName} - ${widget.groupName}",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       Card(
                         elevation: 5,
                         child: SizedBox(
@@ -103,44 +110,33 @@ class _HomePageState extends State<HomePage> {
                                 textScaleFactor: 1.2,
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                  style: DefaultTextStyle.of(context)
-                                      .style
-                                      .copyWith(
-                                          color: currentClass !=
-                                                      "No class right now" &&
-                                                  currentClass !=
-                                                      "No class today" &&
-                                                  currentClass.isNotEmpty
-                                              ? (currentData['color'] ==
-                                                      "success"
-                                                  ? Colors.green.shade300
-                                                  : currentData['color'] ==
-                                                          "danger"
-                                                      ? Colors.red.shade300
-                                                      : currentData['color'] ==
-                                                              "info"
-                                                          ? Colors.blue.shade300
-                                                          : Theme.of(context)
-                                                              .colorScheme
-                                                              .onPrimaryContainer)
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimaryContainer),
+                                  style: DefaultTextStyle.of(context).style.copyWith(
+                                      color: currentClass != "No class right now" &&
+                                              currentClass != "No class today" &&
+                                              currentClass.isNotEmpty
+                                          ? (currentData['color'] == "success"
+                                              ? Colors.green.shade300
+                                              : currentData['color'] == "danger"
+                                                  ? Colors.red.shade300
+                                                  : currentData['color'] == "info"
+                                                      ? Colors.blue.shade300
+                                                      : Theme.of(context).colorScheme.onPrimaryContainer)
+                                          : Theme.of(context).colorScheme.onPrimaryContainer),
                                   children: [
                                     const TextSpan(
                                       text: 'Current Class: ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                     TextSpan(
                                       text: currentClass,
                                     ),
-                                    timeIndex != 0
+                                    timeIndex != 0 &&
+                                            currentClass != "No class right now" &&
+                                            currentClass != "No class today" &&
+                                            currentClass.isNotEmpty
                                         ? TextSpan(
-                                            text:
-                                                "\n ${Utils.times[timeIndex]}",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                            text: "\n ${Utils.times[timeIndex]}",
+                                            style: const TextStyle(fontWeight: FontWeight.bold),
                                           )
                                         : const TextSpan()
                                   ],
@@ -163,52 +159,33 @@ class _HomePageState extends State<HomePage> {
                                       textScaleFactor: 1.2,
                                       textAlign: TextAlign.center,
                                       text: TextSpan(
-                                        style: DefaultTextStyle.of(context)
-                                            .style
-                                            .copyWith(
-                                                color: nextClass != "No class right now" &&
-                                                        nextClass !=
-                                                            "No class today" &&
-                                                        nextClass.isNotEmpty
-                                                    ? (nextData['color'] ==
-                                                            "success"
-                                                        ? Colors.green.shade300
-                                                        : nextData['color'] ==
-                                                                "danger"
-                                                            ? Colors
-                                                                .red.shade300
-                                                            : nextData['color'] ==
-                                                                    "info"
-                                                                ? Colors.blue
-                                                                    .shade300
-                                                                : Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .onPrimaryContainer)
-                                                    : Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimaryContainer),
+                                        style: DefaultTextStyle.of(context).style.copyWith(
+                                            color: nextClass != "No class right now" &&
+                                                    nextClass != "No class today" &&
+                                                    nextClass.isNotEmpty
+                                                ? (nextData['color'] == "success"
+                                                    ? Colors.green.shade300
+                                                    : nextData['color'] == "danger"
+                                                        ? Colors.red.shade300
+                                                        : nextData['color'] == "info"
+                                                            ? Colors.blue.shade300
+                                                            : Theme.of(context).colorScheme.onPrimaryContainer)
+                                                : Theme.of(context).colorScheme.onPrimaryContainer),
                                         children: [
                                           const TextSpan(
                                             text: 'Next Class: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                            style: TextStyle(fontWeight: FontWeight.bold),
                                           ),
                                           TextSpan(
                                             text: nextClass,
                                           ),
                                           timeIndex + 1 != 0 &&
-                                                  nextClass !=
-                                                      "No class right now" &&
-                                                  nextClass !=
-                                                      "No class today" &&
+                                                  nextClass != "No class right now" &&
+                                                  nextClass != "No class today" &&
                                                   nextClass.isNotEmpty
                                               ? TextSpan(
-                                                  text:
-                                                      "\n ${Utils.times[timeIndex + 1]}",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                  text: "\n ${Utils.times[nextTimeIndex]}",
+                                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                                 )
                                               : const TextSpan()
                                         ],
