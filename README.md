@@ -1,6 +1,6 @@
 # Thapar Class Checker
 
-An app made in Flutter to easily check current and upcoming classes and also notify about it according to your subgroups, all without internet.
+An app made in Flutter to view your classes even when offline.
 
 ## Screenshots
 
